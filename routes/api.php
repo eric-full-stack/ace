@@ -14,6 +14,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('login/google', 'LoginController@redirectToGoogleProvider');
+Route::get('login/google/callback', 'LoginController@handleGoogleProviderCallback');
+Route::get('login/facebook', 'LoginController@redirectToFacebookProvider');
+Route::get('login/facebook/callback', 'LoginController@handleFacebookProviderCallback');
+
+Route::middleware('auth:api')->group(function () {
+    
+    Route::resource('genders', 'GenderAPIController');
+
+    Route::resource('players', 'PlayerAPIController');
+
+    Route::resource('addresses', 'AddressAPIController');
+
+    Route::resource('sports', 'SportAPIController');
+
+    Route::resource('teams', 'TeamAPIController');
+
+    Route::resource('tournaments', 'TournamentAPIController');
+
+    Route::resource('associates', 'AssociateAPIController');
+
+    Route::resource('associate_galleries', 'AssociateGalleryAPIController');
+
+    Route::resource('sport_courts', 'SportCourtAPIController');
+
+    Route::resource('transactions', 'TransactionAPIController')->middleware('auth:sanctum');
+
+    Route::resource('matches', 'MatchAPIController');
+
+    Route::resource('associate_sport_court_prices', 'AssociateSportCourtPriceAPIController');
 });
+ 

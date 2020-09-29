@@ -13,7 +13,16 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Address' => 'App\Policies\AddressPolicy',
+        'App\Models\AssociateGallery' => 'App\Policies\AssociateGalleryPolicy',
+        'App\Models\Associate' => 'App\Policies\AssociatePolicy',
+        'App\Models\Gender' => 'App\Policies\GenderPolicy',
+        'App\Models\Player' => 'App\Policies\PlayerPolicy',
+        'App\Models\SportCourt' => 'App\Policies\SportCourtPolicy',
+        'App\Models\Sport' => 'App\Policies\SportPolicy',
+        'App\Models\Team' => 'App\Policies\TeamPolicy',
+        'App\Models\Tournament' => 'App\Policies\TournamentPolicy',
+        'App\Models\User' => 'App\Policies\UserPolicy',
     ];
 
     /**
@@ -25,6 +34,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+         // Implicitly grant "Super Admin" role all permission checks using can()
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('super-admin')) {
+                return true;
+            }
+        });
     }
 }
